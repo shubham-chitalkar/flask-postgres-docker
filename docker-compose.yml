@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgrace-db
+    container_name: postgrace-sql
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgrace-db:/var/lib/postgresql/data
+
+  web:
+    image: python-app
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://admin:123456@db:5432/mydatabase
+    depends_on:
+      - db
+
+volumes:
+  postgrace-db:
